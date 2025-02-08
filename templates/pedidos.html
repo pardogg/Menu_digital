@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
+    {% if not current_user.is_authenticated %}
+        <script>
+            window.location.href = "{{ url_for('main.register') }}";
+        </script>
+    {% endif %}
+
     <div class="container">
         <h1>Pedidos en Cocina</h1>
         <ul>
@@ -14,28 +20,35 @@
                 <li>
                     {{ pedido.nombre }} - {{ pedido.orden }} 
                     <strong>({{ pedido.estado }})</strong>
-                    {% if pedido.estado == 'En preparación' %}
-                    <button onclick="marcarListo('{{ loop.index0 }}')">Marcar como Listo</button>
+                    {% if current_user.is_authenticated and pedido.estado == 'En preparación' %}
+                        <button class="marcar-listo" data-id="{{ pedido.id }}">Marcar como Listo</button>
                     {% endif %}
                 </li>
             {% endfor %}
         </ul>
-        <a href="{{ url_for('index') }}">Regresar al Menú</a>
+        <a href="{{ url_for('main.index') }}">Regresar al Menú</a>
     </div>
 
     <script>
-        function marcarListo(pedidoId) {
-            fetch('/actualizar_pedido', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ pedido_id: pedidoId })
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-                location.reload();
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".marcar-listo").forEach(button => {
+                button.addEventListener("click", function () {
+                    let pedidoId = this.getAttribute("data-id");
+
+                    fetch("{{ url_for('main.actualizar_pedido') }}", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ pedido_id: pedidoId })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(data.message);
+                        location.reload();
+                    })
+                    .catch(error => console.error("Error:", error));
+                });
             });
-        }
+        });
     </script>
 </body>
 </html>
