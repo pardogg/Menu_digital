@@ -3,6 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from config import Config
+from app.routes import main
+
+
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
@@ -21,3 +24,5 @@ def create_app():
     app.register_blueprint(main)
 
     return app
+
+

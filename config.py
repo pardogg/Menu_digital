@@ -1,6 +1,6 @@
 import os
 
 class Config:
-    SECRET_KEY = os.environ.get('1998miguel') or 'clave_secreta_segura'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///../instance/menu.db'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'tu_clave_secreta'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///menu.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
