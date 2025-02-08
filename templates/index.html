@@ -10,6 +10,7 @@
     <div class="container">
         <h1>Menú del Restaurante</h1>
 
+        <!-- Sección de productos -->
         <div class="menu">
             {% for producto in productos %}
                 <div class="producto">
@@ -21,9 +22,31 @@
             {% endfor %}
         </div>
 
+        <!-- Mensajes Flash -->
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Formulario de Registro -->
+        <h2>Registro de Usuario</h2>
+        <form action="{{ url_for('registro') }}" method="POST">
+            <input type="text" name="nombre" placeholder="Tu nombre" required>
+            <input type="email" name="email" placeholder="Correo Electrónico" required>
+            <input type="password" name="password" placeholder="Contraseña" required>
+            <input type="number" name="apartamento" placeholder="Número de apartamento" required>
+            <button type="submit">Registrarse</button>
+        </form>
+
+        <!-- Formulario de Pedido -->
         <h2>Realizar Pedido</h2>
         <form action="{{ url_for('realizar_pedido') }}" method="post">
-            <input type="text" name="nombre" placeholder="Tu nombre" required>
+            <input type="email" name="email" placeholder="Tu correo electrónico" required>
             <select name="orden" required>
                 {% for producto in productos %}
                     <option value="{{ producto.nombre }}">{{ producto.nombre }}</option>
@@ -32,6 +55,7 @@
             <button type="submit">Hacer Pedido</button>
         </form>
 
+        <!-- Acceso a la cocina -->
         <a href="{{ url_for('cocina') }}">Acceso Cocina (Solo Personal)</a>
     </div>
 </body>
