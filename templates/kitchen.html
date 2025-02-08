@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel='stylesheet' type='text/css' href='/static/style.css'>
+</head>
+<body>
+    <h1>Pedidos en Cocina</h1>
+    {% for order in orders %}
+        <div class='order'>
+            <p>Pedido #{{ order[0] }}: {{ order[1] }} - {{ order[2] }}</p>
+            <button onclick="updateOrder({{ order[0] }}, 'Listo')">Marcar como Listo</button>
+        </div>
+    {% endfor %}
+    <script>
+    function updateOrder(id, status) {
+        fetch('/update_order', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({id: id, status: status})
+        }).then(response => response.json())
+          .then(data => alert(data.message));
+    }
+    </script>
+</body>
+</html>
