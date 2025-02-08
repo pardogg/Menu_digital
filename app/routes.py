@@ -2,8 +2,14 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request
 from app import db, bcrypt
 from app.models import Cliente
 from flask_login import login_user, logout_user, login_required
+from flask import Blueprint, render_template
+from app.__init__ import db, bcrypt
 
 main = Blueprint('main', __name__)
+
+@main.route('/')
+def home():
+    return "Bienvenido al menú digital"
 
 @main.route('/register', methods=['GET', 'POST'])
 def register():

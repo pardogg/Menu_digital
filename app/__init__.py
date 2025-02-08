@@ -20,9 +20,13 @@ def create_app():
     bcrypt.init_app(app)
     login_manager.init_app(app)
 
+    # 🔹 Importar dentro de la función para evitar importación circular
     from app.routes import main
     app.register_blueprint(main)
 
+    return new_func(app)
+
+def new_func(app):
     return app
 
 
