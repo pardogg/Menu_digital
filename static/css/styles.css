@@ -1,0 +1,39 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('../img/fondo.jpg');
+    background-size: cover;
+    text-align: center;
+    color: white;
+}
+
+.container {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-top: 50px;
+}
+
+h1 {
+    font-size: 2em;
+}
+
+form {
+    margin: 20px 0;
+}
+
+input, select, button {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #ff5733;
+    color: white;
+    border: none;
+}
+
+a {
+    color: #ffcc00;
+}
