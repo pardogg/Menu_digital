@@ -16,7 +16,10 @@ pedidos = []  # Lista de pedidos
 
 @app.route('/')
 def index():
-    return render_template('index.html', productos=productos, usuario=session.get('usuario'))
+    try:
+        return render_template('index.html', productos=productos)
+    except Exception as e:
+        return f"Error al renderizar la página: {str(e)}", 500
 
 @app.route('/registro', methods=['POST'])
 def registro():
@@ -57,12 +60,13 @@ def logout():
 
 @app.route('/realizar_pedido', methods=['POST'])
 def realizar_pedido():
-    email = session.get('usuario')
+    email = request.form.get('email', '').strip()
+    orden = request.form.get('orden', '').strip()
 
-    if not email:
-        flash("Debes estar registrado para hacer un pedido.", "danger")
+    if not email or not orden:
+        flash("Debes estar registrado y proporcionar un pedido.", "danger")
         return redirect(url_for('index'))
-
+    
     orden = request.form.get('orden')
     if not orden:
         flash("No puedes hacer un pedido vacío.", "danger")
@@ -86,7 +90,11 @@ def realizar_pedido():
 
 @app.route('/cocina')
 def cocina():
-    return render_template('cocina.html', pedidos=pedidos)
+    try:
+        return render_template('cocina.html', pedidos=pedidos if pedidos else [])
+    except Exception as e:
+        return f"Error al cargar la cocina: {str(e)}", 500
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000, debug=True)  # Debug activado para ver errores en desarrollo
