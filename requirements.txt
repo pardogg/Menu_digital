@@ -2,3 +2,5 @@ Flask
 gunicorn
 qrcode
 flask_sqlalchemy
+werkzeug
+flask-bcrypt
