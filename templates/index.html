@@ -8,21 +8,31 @@
 </head>
 <body>
     <div class="container">
-        <h1>Bienvenido al Restaurante</h1>
-        <p>Selecciona tu orden y envíala a cocina</p>
+        <h1>Menú del Restaurante</h1>
 
-        <form action="{{ url_for('gestionar_pedidos') }}" method="post">
+        <div class="menu">
+            {% for producto in productos %}
+                <div class="producto">
+                    <img src="{{ url_for('static', filename='img/' + producto.imagen) }}" alt="{{ producto.nombre }}">
+                    <h2>{{ producto.nombre }}</h2>
+                    <p>{{ producto.descripcion }}</p>
+                    <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <h2>Realizar Pedido</h2>
+        <form action="{{ url_for('realizar_pedido') }}" method="post">
             <input type="text" name="nombre" placeholder="Tu nombre" required>
             <select name="orden" required>
-                <option value="Pizza">Pizza</option>
-                <option value="Hamburguesa">Hamburguesa</option>
-                <option value="Pasta">Pasta</option>
-                <option value="Ensalada">Ensalada</option>
+                {% for producto in productos %}
+                    <option value="{{ producto.nombre }}">{{ producto.nombre }}</option>
+                {% endfor %}
             </select>
-            <button type="submit">Realizar Pedido</button>
+            <button type="submit">Hacer Pedido</button>
         </form>
 
-        <a href="{{ url_for('gestionar_pedidos') }}">Ver pedidos</a>
+        <a href="{{ url_for('cocina') }}">Acceso Cocina (Solo Personal)</a>
     </div>
 </body>
 </html>

@@ -1,22 +1,32 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify # type: ignore
 
 app = Flask(__name__)
 
-# Lista para almacenar los pedidos temporalmente
+# Base de datos simulada con productos
+productos = [
+    {"nombre": "Pizza", "descripcion": "Pizza grande con queso y pepperoni", "precio": 10, "imagen": "pizza.jpg"},
+    {"nombre": "Hamburguesa", "descripcion": "Hamburguesa con doble carne y queso", "precio": 8, "imagen": "hamburguesa.jpg"},
+    {"nombre": "Pasta", "descripcion": "Pasta con salsa Alfredo y pollo", "precio": 9, "imagen": "pasta.jpg"},
+    {"nombre": "Ensalada", "descripcion": "Ensalada fresca con aderezo de la casa", "precio": 7, "imagen": "ensalada.jpg"}
+]
+
+# Lista para almacenar pedidos
 pedidos = []
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', productos=productos)
 
-@app.route('/pedidos', methods=['GET', 'POST'])
-def gestionar_pedidos():
-    if request.method == 'POST':
-        nombre = request.form['nombre']
-        orden = request.form['orden']
-        pedidos.append({'nombre': nombre, 'orden': orden, 'estado': 'En preparación'})
-        return redirect(url_for('gestionar_pedidos'))
-    return render_template('pedidos.html', pedidos=pedidos)
+@app.route('/pedido', methods=['POST'])
+def realizar_pedido():
+    nombre = request.form['nombre']
+    orden = request.form['orden']
+    pedidos.append({'nombre': nombre, 'orden': orden, 'estado': 'En preparación'})
+    return redirect(url_for('index'))
+
+@app.route('/cocina')
+def cocina():
+    return render_template('cocina.html', pedidos=pedidos)
 
 @app.route('/actualizar_pedido', methods=['POST'])
 def actualizar_pedido():
@@ -26,4 +36,4 @@ def actualizar_pedido():
     return jsonify({'message': 'Pedido actualizado'})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000)
+    app.run(debug=True)

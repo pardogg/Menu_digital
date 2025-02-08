@@ -7,7 +7,7 @@ body {
 }
 
 .container {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
     padding: 20px;
     border-radius: 10px;
     display: inline-block;
@@ -18,8 +18,29 @@ h1 {
     font-size: 2em;
 }
 
+.menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.producto {
+    background: white;
+    color: black;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    width: 200px;
+}
+
+.producto img {
+    width: 100%;
+    border-radius: 10px;
+}
+
 form {
-    margin: 20px 0;
+    margin-top: 20px;
 }
 
 input, select, button {
@@ -32,6 +53,7 @@ button {
     background-color: #ff5733;
     color: white;
     border: none;
+    cursor: pointer;
 }
 
 a {
