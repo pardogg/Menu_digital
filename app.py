@@ -95,6 +95,8 @@ def cocina():
     except Exception as e:
         return f"Error al cargar la cocina: {str(e)}", 500
 
+import os
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000, debug=True)  # Debug activado para ver errores en desarrollo
+    port = int(os.environ.get("PORT", 10000))  # Usa el puerto de Render si está disponible
+    app.run(host='0.0.0.0', port=port)
